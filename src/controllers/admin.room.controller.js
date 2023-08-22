@@ -47,6 +47,7 @@ export const createRoom = async (req, res) => {
     description,
     availableDates,
   } = req.body;
+  console.log(req.body);
   try {
     const numberHabitationFound = await Room.findOne({ numberHabitation });
     if (numberHabitationFound)
