@@ -78,6 +78,8 @@ export const login = async (req, res) => {
       id: userFound._id,
       username: userFound.username,
       email: userFound.email,
+      role: userFound.role,
+      state: userFound.state,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -98,6 +100,8 @@ export const verifyToken = async (req, res) => {
       id: userFound._id,
       username: userFound.username,
       email: userFound.email,
+      role: userFound.role,
+      state: userFound.state,
     });
   });
 };
@@ -171,4 +175,51 @@ export const deleteUser = async (req,res) => {
     console.error(error);
     res.status(500).json({ message: error.message });
   }
-}
+};
+
+
+export const createUserAdmin = async (req, res) => {
+  const { username, email, password, role, state } = req.body;
+  console.log(req.body);
+  try {
+    const userFound = await User.findOne({ email });
+
+    if (userFound) return res.status(400).json(["The email is already in use"]);
+
+    // hashing the password
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // creating the user
+    const newUser = new User({
+      username,
+      email,
+      password: passwordHash,
+      role,
+      state,
+    });
+
+    // saving the user in the database
+    const userSaved = await newUser.save();
+
+    // create access token
+    const token = await createAccessToken({
+      id: userSaved._id,
+    });
+
+    res.cookie("token", token, {
+      httpOnly: process.env.NODE_ENV !== "development",
+      secure: true,
+      sameSite: "none",
+    });
+
+    res.json({
+      id: userSaved._id,
+      username: userSaved.username,
+      email: userSaved.email,
+      role: userSaved.role,
+      state: userSaved.state,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

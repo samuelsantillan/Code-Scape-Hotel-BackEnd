@@ -1,10 +1,20 @@
 import Room from "../models/room.model.js";
 import AvailableDate from "../models/available.date.model.js";
+import roomUserReservation from "../models/room.user.reservation.model.js";
 import User from "../models/user.model.js";
 export const profile = async (req, res) => {
   console.log(req.user);
   res.send("profile");
 }
+
+export const getRoomUserReservation = async (req, res) => {
+  try {
+    const roomUserReservation = await roomUserReservation.find();
+    res.json(roomUserReservation);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 export const getRooms = async (req, res) => {
   console.log(req.user)
@@ -42,7 +52,7 @@ export const createRoom = async (req, res) => {
     numberHabitation,
     type,
     nameHabitation,
-    photo,
+    photos,
     price,
     description,
     availableDates,
@@ -60,7 +70,7 @@ export const createRoom = async (req, res) => {
       nameHabitation,
       price,
       description,
-      photo,
+      photos,
     });
     console.log(newRoom);
     await newRoom.save();
@@ -89,7 +99,7 @@ export const updateRoom = async (req, res) => {
       numberHabitation,
       type,
       nameHabitation,
-      photo,
+      photos,
       price,
       description,
       availableDates,
@@ -100,7 +110,7 @@ export const updateRoom = async (req, res) => {
         numberHabitation,
         type,
         nameHabitation,
-        photo,
+        photos,
         price,
         description,
         availableDates,
