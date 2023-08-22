@@ -78,6 +78,8 @@ export const login = async (req, res) => {
       id: userFound._id,
       username: userFound.username,
       email: userFound.email,
+      role: userFound.role,
+      state: userFound.state,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -98,6 +100,8 @@ export const verifyToken = async (req, res) => {
       id: userFound._id,
       username: userFound.username,
       email: userFound.email,
+      role: userFound.role,
+      state: userFound.state,
     });
   });
 };

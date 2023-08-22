@@ -7,7 +7,8 @@ import {
   getUsers,
   updateUser,
   getUser,
-  deleteUser
+  deleteUser,
+  createUserAdmin
 } from "../controllers/auth.controller.js";
 import { validateSchema } from "../middlewares/validator.middleware.js";
 import { loginSchema, registerSchema } from "../schemas/auth.schema.js";
@@ -22,4 +23,5 @@ router.get("/getUsers", getUsers);
 router.put('/updateUser/:id', updateUser );
 router.get('/getUser/:id', getUser);
 router.delete('/deleteUser/:id', deleteUser);
+router.post('/createUserAdmin', createUserAdmin);
 export default router;
