@@ -3,6 +3,7 @@ import morgan from "morgan";
 import roomRoutes from "./routes/room.routes.js";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes.js";
+import roomUser from "./routes/room.user.routes.js";
 import cookieParser from "cookie-parser";
 const app = express();
 app.use(
@@ -16,4 +17,5 @@ app.use(express.json()); // Para que express entienda los datos que vienen en fo
 app.use(cookieParser());
 app.use("/api", roomRoutes);
 app.use("/api", authRoutes);
+app.use("/api", roomUser)
 export default app;
