@@ -75,6 +75,7 @@ export const createRoom = async (req, res) => {
     console.log(newRoom);
     await newRoom.save();
     const availableDateDocuments = [];
+    
     for (const date of availableDates) {
       const [startDate, endDate] = date;
       const availableDate = new AvailableDate({
@@ -83,6 +84,7 @@ export const createRoom = async (req, res) => {
         endDate,
       });
       console.log(availableDate);
+      console.log(startDate);
       availableDateDocuments.push(availableDate);
     }
     await AvailableDate.insertMany(availableDateDocuments);

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const roomUserReservation = new mongoose.Schema({
+const roomUserReservationSchema = new mongoose.Schema({
   idRoom: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Room",
@@ -21,4 +21,4 @@ const roomUserReservation = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("RoomUserReservation", roomUserReservation);
+export default mongoose.model("RoomUserReservation", roomUserReservationSchema);

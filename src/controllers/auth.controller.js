@@ -65,15 +65,12 @@ export const login = async (req, res) => {
       id: userFound._id,
       username: userFound.username,
     });
-    /*
-    res.cookie("token", token, {
-      secure: false,
-      sameSite: "none",
-      httpOnly: true
-    });
- Lo utilizamos para entorno de produccion, en caso de que se utilice en un
- entorno local, los parametros finales no van */
-    res.cookie("token", token);
+
+    res.cookie("token", token,{});
+    //  Lo utilizamos para entorno de produccion, en caso de que se utilice en un
+    //  entorno local, los parametros finales no van
+    // res.cookie("token", token,);
+    console.log(token);
     res.json({
       id: userFound._id,
       username: userFound.username,
@@ -88,6 +85,7 @@ export const login = async (req, res) => {
 
 export const verifyToken = async (req, res) => {
   const { token } = req.cookies;
+  console.log(token);
   if (!token) return res.send(false);
 
   jwt.verify(token, TOKEN_SECRET, async (error, user) => {
@@ -116,7 +114,6 @@ export const logout = async (req, res) => {
   return res.sendStatus(200);
 };
 
-
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find();
@@ -126,24 +123,18 @@ export const getUsers = async (req, res) => {
   }
 };
 
-
-export const updateUser = async (req,res) => {
-   console.log(req.body); 
+export const updateUser = async (req, res) => {
+  console.log(req.body);
 
   try {
-    const {
-      username,
-      email,
-      role,
-      state
-    } = req.body;
+    const { username, email, role, state } = req.body;
     const userUpdate = await User.findOneAndUpdate(
       { _id: req.params.id },
       {
         username,
         email,
         role,
-        state
+        state,
       },
       { new: true }
     );
@@ -151,20 +142,20 @@ export const updateUser = async (req,res) => {
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-}
+};
 
 export const getUser = async (req, res) => {
   console.log(req.body);
   try {
     const user = await User.findById(req.params.id);
-    if(!user) return res.status(404).send("Room not found");
+    if (!user) return res.status(404).send("Room not found");
     res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
-export const deleteUser = async (req,res) => {
+export const deleteUser = async (req, res) => {
   try {
     const deletedUser = await User.findOneAndDelete(req.params.id);
     if (!deletedUser) {
@@ -176,7 +167,6 @@ export const deleteUser = async (req,res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 export const createUserAdmin = async (req, res) => {
   const { username, email, password, role, state } = req.body;
