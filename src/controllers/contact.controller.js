@@ -13,21 +13,36 @@ const submitContactForm = async (req, res) => {
         });
 
         await newContact.save();
-        const emailHtml = `
-        <h1>Recibiste un nuevo mensaje</h1>
-      <h3>Detalles del mensaje de contacto:</h3>
-      <ul>
-        <li><strong>Email:</strong> ${email}</li>
+        const emailTemplate = `
+<html>
+<head>
+    <style>
+        section {
+            background-color: #faf8f4;
+            color: #6e5137;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <section>
+    <h1>Recibiste un nuevo mensaje</h1>
+    <h3>Detalles del mensaje de contacto:</h3>
+    <ul>
+        <li><strong>Mail:</strong> ${email} </li>
         <li><strong>Nombre:</strong> ${name}</li>
         <li><strong>Mensaje:</strong> ${message}</li>
-      </ul>
-    `;
-
+    </ul>
+    </section>
+</body>
+</html>
+`;
         resend.emails.send({
             from: "onboarding@resend.dev",
             to: "codescapehotel@gmail.com",
             subject: "Nuevo mensaje de contacto",
-            html: emailHtml,
+            html: emailTemplate,
         });
         res
             .status(200)

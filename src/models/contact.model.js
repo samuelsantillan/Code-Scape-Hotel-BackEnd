@@ -5,7 +5,6 @@ const contactSchema = new Schema({
     email: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
         max: 40,
         min: 7
