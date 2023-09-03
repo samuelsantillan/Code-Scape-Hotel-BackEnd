@@ -566,7 +566,6 @@ const submitNewsletterForm = async (req, res) => {
             console.log(error);
             res.status(500).send('Error en mandar mail de bienvenida');
         } else {
-            console.log('Email sent: ' + info.response);
             res.status(200).send('Mail mandado correctamente');
         }
     });
@@ -577,7 +576,6 @@ const getEmails = async (req, res) => {
         const suscriptors = await NewsletterModel.find();
         res.status(200).json(suscriptors);
     } catch (error) {
-        console.error("Error al obtener los suscriptores:", error);
         res.status(500).json({ message: "Error al obtener la lista de correos" });
     }
 };
