@@ -2,10 +2,11 @@ import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { TOKEN_SECRET } from "../config.js";
-import { createAccessToken } from "../libs/jwt.js";
+import { createAccessToken, AccessTokenForgotPassword } from "../libs/jwt.js";
 
 export const register = async (req, res) => {
   const { username, email, password, role, state } = req.body;
+  console.log(req.body);
   try {
     const userFound = await User.findOne({ email });
 
@@ -66,7 +67,7 @@ export const login = async (req, res) => {
       username: userFound.username,
     });
 
-    res.cookie("token", token,{});
+    res.cookie("token", token, {});
     //  Lo utilizamos para entorno de produccion, en caso de que se utilice en un
     //  entorno local, los parametros finales no van
     // res.cookie("token", token,);
@@ -148,7 +149,7 @@ export const getUser = async (req, res) => {
   console.log(req.body);
   try {
     const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).send("Room not found");
+    if (!user) return res.status(404).send("User not found");
     res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -213,3 +214,59 @@ export const createUserAdmin = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const passwordReset = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const email1 = req.body.email;
+    console.log(email);
+    console.log(req.body);
+    const userFound = await User.findOne({ email });
+    console.log(userFound);
+    if (userFound) {
+      console.log(req.body);
+
+      let payload = {
+        id: userFound._id,
+        email: userFound.email,
+      };
+      let token = AccessTokenForgotPassword(payload);
+      res.send(
+        '<a href="/resetpassword/' +
+          payload.id +
+          "/" +
+          token +
+          '">Reset password</a>'
+      );
+    } else {
+      res.status(400).json(["The email does not exist"]);
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const passwordResetView = async (req, res) => {
+  try {
+    const { id, token } = req.params;
+    console.log(id, token);
+    const userFound = await User.findById(id);
+    console.log(userFound);
+    if (userFound) {
+      jwt.verify(token, TOKEN_SECRET, async (error, user) => {
+        if (error) return res.sendStatus(401);
+        return res.json({
+          id: userFound._id,
+          username: userFound.username,
+          email: userFound.email,
+          role: userFound.role,
+          state: userFound.state,
+        });
+      });
+    } else {
+      res.status(400).json(["The email does not exist"]);
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
