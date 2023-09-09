@@ -56,22 +56,38 @@ export const deleteAllRoomUserReservation = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const formatDateToSpanish = (date) => {
+  const daysOfWeek = [
+    "domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"
+  ];
+  
+  const months = [
+    "enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+  ];
 
+  const day = date.getDate();
+  const dayOfWeek = daysOfWeek[date.getDay()];
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+
+  return `${dayOfWeek}, ${day} de ${month} de ${year}`;
+};
 export const sendConfirmationEmail = async (req, res) => {
-  const { nameHabitation, type, startDate, endDate, email } = req.body;
-  console.log(req.body);
+  const { username, nameHabitation, type, startDate, endDate, email } = req.body;
+  
+  const formattedStartDate = formatDateToSpanish(new Date(startDate));
+  const formattedEndDate = formatDateToSpanish(new Date(endDate));
+
   try {
     const mailOptions = {
       from: "codescapehotel@gmail.com",
       to: email,
       subject: "Confirmación de reserva",
-      html: emailTemplate(nameHabitation),
+      html: emailTemplate(username,nameHabitation, type, formattedStartDate, formattedEndDate),
     };
 
     await transporter.sendMail(mailOptions);
-    // console.log(`Correo electrónico enviado a ${email} con éxito.`);
     res.json({ message: `Correo electrónico enviado a ${email} con éxito.` });
-    // res.status(201).json(nameHabitation);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

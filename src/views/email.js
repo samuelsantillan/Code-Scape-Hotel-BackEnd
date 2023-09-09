@@ -1,6 +1,11 @@
-
-export const emailTemplate = (nameHabitation) => {
-    return (`
+export const emailTemplate = (
+  username,
+  nameHabitation,
+  type,
+  formattedStartDate,
+  formattedEndDate
+) => {
+  return `
     <html>
     <head>
         <style>
@@ -10,6 +15,7 @@ export const emailTemplate = (nameHabitation) => {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 width: 100%;
             }
+            
         </style>
     </head>
     <body>
@@ -17,8 +23,7 @@ export const emailTemplate = (nameHabitation) => {
 
     <span class="m_4878789960067980205mcnPreviewText"
         style="display:none;font-size:0px;line-height:0px;max-height:0px;max-width:0px;opacity:0;overflow:hidden">Gracias
-        por suscribirte en nuestra newsletter! Preparate para recibir ofertas increíbles y enterarte de nuestras
-        últimas novedades.</span>
+        por reservar en CodeScape! Tu reserva está confirmada</span>
 
     <div>
         <table  cellpadding="0" cellspacing="0" height="100%" width="100%"
@@ -65,8 +70,8 @@ export const emailTemplate = (nameHabitation) => {
                                                                                                         <div class="m_4878789960067980205mceText"
                                                                                                             id="m_4878789960067980205dataBlockId-1"
                                                                                                             style="width:100%">
-                                                                                                            <p style="text-align: center;"><strong>Gracias por suscribirte a nuestra
-                                                                                                                    Newletter</strong>
+                                                                                                            <p style="text-align: center;"><strong>¡Gracias por reservar en CodeScape!
+                                                                                                                    </strong>
                                                                                                             </p>
                                                                                                         </div>
                                                                                                     </td>
@@ -175,174 +180,92 @@ export const emailTemplate = (nameHabitation) => {
                                                                                                         <div class="m_4878789960067980205mceText"
                                                                                                             id="m_4878789960067980205dataBlockId-5"
                                                                                                             style="width:100%">
-                                                                                                            <h1 style="text-align: center;">¡Bienvenido
-                                                                                                                a
-                                                                                                                CodeScape!
+                                                                                                            <h1 style="text-align: center;">¡Gracias, ${username}! Tu reserva en CodeScape está confirmada.
                                                                                                             </h1>
                                                                                                             <p><br>
                                                                                                             </p>
                                                                                                             <p><br>
                                                                                                             </p>
                                                                                                             
-                                                                                                            <p style="text-align: center;">En
-                                                                                                                CodeScape,
-                                                                                                                nuestra
-                                                                                                                misión
-                                                                                                                es
-                                                                                                                hacer
-                                                                                                                que
-                                                                                                                cada
-                                                                                                                uno
-                                                                                                                de
-                                                                                                                tus
-                                                                                                                momentos
-                                                                                                                con
-                                                                                                                nosotros
-                                                                                                                sea
-                                                                                                                inolvidable.
-                                                                                                                Desde
-                                                                                                                vistas
-                                                                                                                impresionantes
-                                                                                                                hasta
-                                                                                                                comodidades
-                                                                                                                de
-                                                                                                                lujo,
-                                                                                                                nos
-                                                                                                                esforzamos
-                                                                                                                por
-                                                                                                                brindarte
-                                                                                                                una
-                                                                                                                estancia
-                                                                                                                excepcional
-                                                                                                                que
-                                                                                                                refleje
-                                                                                                                nuestra
-                                                                                                                dedicación
-                                                                                                                a la
-                                                                                                                hospitalidad
-                                                                                                                de
-                                                                                                                primera
-                                                                                                                clase.
+                                                                                                            <p style="text-align: center;">
+                                                                                                                <ul>
+                                                                                                                    <li>CodeScape te espera el <b>${formattedStartDate}</b></li>
+                                                                                                                    <li>Para enviar preguntas al alojamiento comunicarte al 422229 </li>
+                                                                                                                </ul>
+
                                                                                                             </p>
-                                                                                                            <p>Como
-                                                                                                                suscriptor
-                                                                                                                de
-                                                                                                                nuestra
-                                                                                                                newsletter,
-                                                                                                                puedes
-                                                                                                                esperar:
-                                                                                                            </p>
-                                                                                                            <ol>
-                                                                                                                <li>
-                                                                                                                    <p> <b>Nombre de la habitacion:</b>
-                                                                                                                        ${nameHabitation}
+                                                                                                            <h4 style="text-align: center;">
+                                                                                                            Detalles de la reserva:
+                                                                                                            </h4>
+                                                                                                                <div>
+                                                                                                                    <p><b>Entrada</b>
+                                                                                                                        <br />
+                                                                                                                        ${formattedEndDate} (de 14:00 a 21:00)
                                                                                                                     </p>
-                                                                                                                </li>
-                                                                                                                <li>
-                                                                                                                    <p><b>Eventos
-                                                                                                                        y
-                                                                                                                        Actividades:</b>
-                                                                                                                        Te
-                                                                                                                        invitaremos
-                                                                                                                        a
-                                                                                                                        participar
-                                                                                                                        en
-                                                                                                                        eventos
-                                                                                                                        únicos
-                                                                                                                        y
-                                                                                                                        actividades
-                                                                                                                        emocionantes
-                                                                                                                        que
-                                                                                                                        mejorarán
-                                                                                                                        tu
-                                                                                                                        experiencia
-                                                                                                                        en
-                                                                                                                        CodeScape
-                                                                                                                        y
-                                                                                                                        en
-                                                                                                                        el
-                                                                                                                        área
-                                                                                                                        circundante.
+                                                                                                                </div>
+                                                                                                                <hr />
+                                                                                                                <div>
+                                                                                                                    <p><b>Salida</b>
+                                                                                                                        <br />
+                                                                                                                        ${formattedEndDate} (de 09:00 a 11:00)
                                                                                                                     </p>
-                                                                                                                </li>
-                                                                                                                <li>
-                                                                                                                    <p><b>Consejos
-                                                                                                                        de
-                                                                                                                        Viaje:</b>
-                                                                                                                        Compartiremos
-                                                                                                                        consejos
-                                                                                                                        útiles
-                                                                                                                        para
-                                                                                                                        sacar
-                                                                                                                        el
-                                                                                                                        máximo
-                                                                                                                        provecho
-                                                                                                                        de
-                                                                                                                        tu
-                                                                                                                        estancia
-                                                                                                                        y
-                                                                                                                        explorar
-                                                                                                                        los
-                                                                                                                        destinos
-                                                                                                                        locales.
+                                                                                                                </div>
+                                                                                                                <hr />
+                                                                                                                <div>
+                                                                                                                    <p> <b>Tu reserva</b>
+                                                                                                                    <br />
+                                                                                                                        ${nameHabitation}, 
+                                                                                                                        ${type}
                                                                                                                     </p>
-                                                                                                                </li>
-                                                                                                                <li>
-                                                                                                                    <p><b>Actualizaciones
-                                                                                                                        del
-                                                                                                                        Hotel:</b>
-                                                                                                                        Te
-                                                                                                                        informaremos
-                                                                                                                        sobre
-                                                                                                                        las
-                                                                                                                        renovaciones,
-                                                                                                                        mejoras
-                                                                                                                        y
-                                                                                                                        otras
-                                                                                                                        noticias
-                                                                                                                        relacionadas
-                                                                                                                        con
-                                                                                                                        CodeScape.
+                                                                                                                </div>
+                                                                                                                <hr />
+                                                                                                                <div>
+                                                                                                                    <p> <b>Ubicación</b>
+                                                                                                                    <br />
+                                                                                                                    Ruta 68 y Ruta 40, 4400 Cafayate, Argentina
                                                                                                                     </p>
-                                                                                                                </li>
-                                                                                                            </ol>
+                                                                                                                </div>
+                                                                                                                <hr />
+                                                                                                                <div>
+                                                                                                                    <p> <b>Teléfono</b>
+                                                                                                                    <br />
+                                                                                                                    +54 1038681
+                                                                                                                    </p>
+                                                                                                                </div>
+                                                                                                                <hr />
+                                                                                                                <div>
+                                                                                                                    <p> <b>Contacto</b>
+                                                                                                                        <br />
+                                                                                                                        codescapehotel@gmail.com
+                                                                                                                    </p>
+                                                                                                                </div>
+                                                                                                                <hr />
+                                                                                                                <div>
+                                                                                                                    <p> <b>Condiciones de cancelación</b>
+                                                                                                                    <br />
+                                                                                                                        Si cancelas o modificas la reserva, o si no te presentas, el cargo será el precio total de la reserva.
+                                                                                                                    </p>
+                                                                                                                </div>
+                                                                                                                <hr />
+                                                                                                                <div>
+                                                                                                                    <p> <b>Info sobre el reembolso</b>
+                                                                                                                    <br />
+                                                                                                                    No se te reembolsará esta reserva si la anulas.</p>
+                                                                                                                </div>
+                                                                                                               
                                                                                                             <p style="text-align: justify;">No
                                                                                                                 dudes
                                                                                                                 en
                                                                                                                 ponerte
                                                                                                                 en
                                                                                                                 contacto
-                                                                                                                con
-                                                                                                                nuestro
-                                                                                                                equipo
                                                                                                                 si
                                                                                                                 tienes
                                                                                                                 alguna
                                                                                                                 pregunta,
                                                                                                                 solicitud
                                                                                                                 especial
-                                                                                                                o
-                                                                                                                simplemente
-                                                                                                                deseas
-                                                                                                                obtener
-                                                                                                                más
-                                                                                                                información
-                                                                                                                sobre
-                                                                                                                nuestros
-                                                                                                                servicios.
-                                                                                                                Estamos
-                                                                                                                aquí
-                                                                                                                para
-                                                                                                                hacer
-                                                                                                                que
-                                                                                                                tu
-                                                                                                                estadía
-                                                                                                                sea
-                                                                                                                excepcional
-                                                                                                                en
-                                                                                                                todos
-                                                                                                                los
-                                                                                                                sentidos.
+                                                                                                                
                                                                                                             </p>
                                                                                                             <p><br>
                                                                                                             </p>
@@ -366,8 +289,7 @@ export const emailTemplate = (nameHabitation) => {
                                                                                                                         <a href="https://us21.mailchimp.com/mctx/clicks?url=https%3A%2F%2Fapp.hotelcodescape.tech&amp;xid=c069423e0b&amp;uid=196449706&amp;iid=901afd61e0&amp;pool=cts&amp;v=2&amp;c=1693343464&amp;h=fcde24d3775ba498b37817e88a8cebec20629fb807b107fa565060aae86dfc8c"
                                                                                                                             style="background-color:#1d130c;border-radius:8px;border:2px solid #6e5137;color:#ffffff;display:block;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:16px;font-weight:normal;font-style:normal;padding:16px 28px;text-decoration:none;min-width:30px;text-align:center;direction:ltr;letter-spacing:0px"
                                                                                                                             target="_blank"
-                                                                                                                            data-saferedirecturl="https://www.google.com/url?q=https://us21.mailchimp.com/mctx/clicks?url%3Dhttps%253A%252F%252Fapp.hotelcodescape.tech%26xid%3Dc069423e0b%26uid%3D196449706%26iid%3D901afd61e0%26pool%3Dcts%26v%3D2%26c%3D1693343464%26h%3Dfcde24d3775ba498b37817e88a8cebec20629fb807b107fa565060aae86dfc8c&amp;source=gmail&amp;ust=1693496574998000&amp;usg=AOvVaw0pkKEVd_sUqpYiFodVI20l">Visitar
-                                                                                                                            página
+                                                                                                                            data-saferedirecturl="https://www.google.com/url?q=https://us21.mailchimp.com/mctx/clicks?url%3Dhttps%253A%252F%252Fapp.hotelcodescape.tech%26xid%3Dc069423e0b%26uid%3D196449706%26iid%3D901afd61e0%26pool%3Dcts%26v%3D2%26c%3D1693343464%26h%3Dfcde24d3775ba498b37817e88a8cebec20629fb807b107fa565060aae86dfc8c&amp;source=gmail&amp;ust=1693496574998000&amp;usg=AOvVaw0pkKEVd_sUqpYiFodVI20l"> Ver sitio
                                                                                                                             web</a>
                                                                                                                     </td>
                                                                                                                 </tr>
@@ -518,5 +440,5 @@ export const emailTemplate = (nameHabitation) => {
 </div>
     </body>
     </html>
-    `);
-}
+    `;
+};
