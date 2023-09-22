@@ -12,6 +12,7 @@ export const createRoomUserReservation = async (req, res) => {
       endDate: endDate, // Actualiza aquí
     });
     const roomUserReservationSaved = await newRoomUserReservation.save();
+    console.log(roomUserReservationSaved);
     res.status(201).json(roomUserReservationSaved);
   } catch (error) {
     res.status(500).json({ message: error.message });
