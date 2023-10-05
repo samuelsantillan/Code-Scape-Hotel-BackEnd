@@ -7,6 +7,11 @@ import roomUser from "./routes/room.user.routes.js";
 import cookieParser from "cookie-parser";
 import jwt from "jwt-simple";
 import bodyParser from "body-parser";
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.set("trust proxy", true);
@@ -23,6 +28,17 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "/src/upload")));
+
+app.get('/images/:imageName', (req, res) => {
+  const imageName = req.params.imageName;
+  const imagePath = path.join(__dirname, 'upload', imageName); // Ruta completa de la imagen en el servidor
+
+  // Devuelve la imagen como respuesta
+  res.sendFile(imagePath);
+});
 
 app.use((req, res, next) => {
   // DESCOMENTAR ESTO EN LOCALHOST
