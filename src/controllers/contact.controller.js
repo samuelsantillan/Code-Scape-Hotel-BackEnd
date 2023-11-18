@@ -3,7 +3,6 @@ import Contact from "../models/contact.model.js";
 import dotenv from "dotenv";
 
 dotenv.config();
-
 const resend = new Resend(process.env.API_KEY_CONTACT);
 
 const submitContactForm = async (req, res) => {
@@ -48,6 +47,7 @@ const submitContactForm = async (req, res) => {
             subject: "Nuevo mensaje de contacto",
             html: emailTemplate,
         });
+
         res
             .status(200)
             .json({ message: "Mensaje recibido y guardado en la base de datos" });

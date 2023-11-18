@@ -5,26 +5,25 @@ dotenv.config();
 
 const submitNewsletterForm = async (req, res) => {
     const { email } = req.body;
-    const existingSubscriber = await NewsletterModel.findOne({ email });
-    if (existingSubscriber) {
-        res.status(400).json({ message: 'El correo ya está registrado en nuestra newsletter' });
-    } else {
-        const newSuscriptor = new NewsletterModel({
-            email
-        });
-        newSuscriptor.save();
-    }
-    const transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: 'codescapehotel@gmail.com',
-            pass: process.env.API_NEWSLETTER_PASSWORD,
-        },
-    });
+    try {
+        const existingSubscriber = await NewsletterModel.findOne({ email });
+        if (existingSubscriber) {
+            return res.status(409).json({ message: 'El correo ingresado ya está registrado en nuestra newsletter.' });
+        } else {
+            const newSuscriptor = new NewsletterModel({
+                email
+            });
+            newSuscriptor.save();
+            
+            const transporter = nodemailer.createTransport({
+                service: 'Gmail',
+                auth: {
+                    user: 'codescapehotel@gmail.com',
+                    pass: process.env.API_NEWSLETTER_PASSWORD,
+                },
+            });
 
-
-
-    const emailTemplate = `
+            const emailTemplate = `
         <html>
         <head>
             <style>
@@ -556,27 +555,27 @@ const submitNewsletterForm = async (req, res) => {
         </body>
         </html>
         `;
-    const mailOptions = {
-        from: 'codescapehotel@gmail.com',
-        to: email,
-        subject: '¡Bienvenido a nuestro newsletter!',
-        html: emailTemplate,
-    };
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            res.status(500).send('Error en mandar mail de bienvenida');
-        } else {
-            res.status(200).send('Mail mandado correctamente');
-        }
-    });
-};
+            const mailOptions = {
+                from: 'codescapehotel@gmail.com',
+                to: email,
+                subject: '¡Bienvenido a nuestro newsletter!',
+                html: emailTemplate,
+            };
+            await transporter.sendMail(mailOptions);
+            return res.status(200).json({ message: 'Registro exitoso.' });
 
-const getEmails = async (req, res) => {
-    try {
-        const suscriptors = await NewsletterModel.find();
-        res.status(200).json(suscriptors);
-    } catch (error) {
-        res.status(500).json({ message: "Error al obtener la lista de correos" });
-    }
-};
-export { submitNewsletterForm, getEmails };
+        }
+        } catch (e) {
+            return res.status(500).json({ message: 'Error interno del servidor al procesar la suscripción.' });
+        }
+    };
+
+    const getEmails = async (req, res) => {
+        try {
+            const suscriptors = await NewsletterModel.find();
+            res.status(200).json(suscriptors);
+        } catch (error) {
+            res.status(500).json({ message: "Error al obtener la lista de correos" });
+        }
+    };
+    export { submitNewsletterForm, getEmails };
