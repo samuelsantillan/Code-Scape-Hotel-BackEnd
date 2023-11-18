@@ -1,5 +1,7 @@
 import { TOKEN_SECRET } from "../config.js";
 import jwt from "jsonwebtoken";
+import jwt_simple from "jwt-simple";
+
 export function createAccessToken(payload) {
   return new Promise((resolve, reject) => {
     jwt.sign(
@@ -14,4 +16,9 @@ export function createAccessToken(payload) {
       }
     );
   });
+}
+
+export function AccessTokenForgotPassword(payload){
+  let token = jwt_simple.encode(payload, TOKEN_SECRET); // token = JWT
+  return token;
 }

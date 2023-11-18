@@ -22,7 +22,6 @@ export const createRoomUserReservation = async (req, res) => {
     });
     const roomUserReservationSaved = await newRoomUserReservation.save();
     await sendConfirmationEmail(req.user.email, roomUserReservationSaved);
-    console.log(roomUserReservationSaved);
 
     res.status(201).json(roomUserReservationSaved);
   } catch (error) {
