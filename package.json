@@ -30,4 +30,6 @@
   "devDependencies": {
     "nodemon": "^3.0.1"
   }
+  "license": "ISC"
+
 }
