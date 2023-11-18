@@ -12,10 +12,8 @@ export const register = async (req, res) => {
 
     if (userFound) return res.status(400).json(["The email is already in use"]);
 
-    // hashing the password
     const passwordHash = await bcrypt.hash(password, 10);
 
-    // creating the user
     const newUser = new User({
       username,
       email,
@@ -24,10 +22,8 @@ export const register = async (req, res) => {
       state,
     });
 
-    // saving the user in the database
     const userSaved = await newUser.save();
 
-    // create access token
     const token = await createAccessToken({
       id: userSaved._id,
     });
@@ -177,10 +173,8 @@ export const createUserAdmin = async (req, res) => {
 
     if (userFound) return res.status(400).json(["The email is already in use"]);
 
-    // hashing the password
     const passwordHash = await bcrypt.hash(password, 10);
 
-    // creating the user
     const newUser = new User({
       username,
       email,
@@ -189,10 +183,8 @@ export const createUserAdmin = async (req, res) => {
       state,
     });
 
-    // saving the user in the database
     const userSaved = await newUser.save();
 
-    // create access token
     const token = await createAccessToken({
       id: userSaved._id,
     });
