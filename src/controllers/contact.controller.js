@@ -1,6 +1,10 @@
 import { Resend } from "resend";
 import Contact from "../models/contact.model.js";
-const resend = new Resend("re_9E8Xfuo7_3DnxvCJQ5MHMLo8QXeSK68NH");
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const resend = new Resend(process.env.API_KEY_CONTACT);
 
 const submitContactForm = async (req, res) => {
     const { email, name, message } = req.body;

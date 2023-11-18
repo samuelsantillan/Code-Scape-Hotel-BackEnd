@@ -7,10 +7,10 @@ import roomUser from "./routes/room.user.routes.js";
 import cookieParser from "cookie-parser";
 import jwt from "jwt-simple";
 import bodyParser from "body-parser";
-import { fileURLToPath } from 'url';
-import path from 'path';
-import newsletterRoutes from './routes/newsletter.routes.js';
-
+import { fileURLToPath } from "url";
+import path from "path";
+import newsletterRoutes from "./routes/newsletter.routes.js";
+import contactRoutes from "./routes/contact.routes.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -33,9 +33,9 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/src/upload")));
 
-app.get('/images/:imageName', (req, res) => {
+app.get("/images/:imageName", (req, res) => {
   const imageName = req.params.imageName;
-  const imagePath = path.join(__dirname, 'upload', imageName); // Ruta completa de la imagen en el servidor
+  const imagePath = path.join(__dirname, "upload", imageName); // Ruta completa de la imagen en el servidor
 
   // Devuelve la imagen como respuesta
   res.sendFile(imagePath);
@@ -55,6 +55,7 @@ app.use("/api", newsletterRoutes);
 app.use("/api", roomRoutes);
 app.use("/api", authRoutes);
 app.use("/api", roomUser);
+app.use("/api", contactRoutes);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.get("/forgotpassword", function (req, res) {
   res.send(
@@ -64,6 +65,5 @@ app.get("/forgotpassword", function (req, res) {
       "</form>"
   );
 });
-
 
 export default app;

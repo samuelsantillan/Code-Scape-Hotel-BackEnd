@@ -3,7 +3,7 @@ import { submitContactForm, getContacts } from '../controllers/contact.controlle
 
 const router = express.Router();
 
-router.post('/api/contact', submitContactForm);
-router.get('/api/contacts', getContacts);
+router.post('/contact', submitContactForm);
+router.get('/contacts', getContacts);
 
 export default router;

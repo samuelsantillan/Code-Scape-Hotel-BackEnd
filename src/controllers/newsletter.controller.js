@@ -1,5 +1,7 @@
 import NewsletterModel from "../models/newsletter.model.js";
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const submitNewsletterForm = async (req, res) => {
     const { email } = req.body;
@@ -17,7 +19,7 @@ const submitNewsletterForm = async (req, res) => {
         service: 'Gmail',
         auth: {
             user: 'codescapehotel@gmail.com',
-            pass: 'yuocvgmxujkcqock',
+            pass: process.env.API_NEWSLETTER_PASSWORD,
         },
     });
 
