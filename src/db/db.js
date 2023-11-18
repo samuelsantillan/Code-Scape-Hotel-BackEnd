@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const connectDb = async () => {
   try {
+    await mongoose.connect("mongodb://127.0.0.1:27017/contact", {
     await mongoose.connect("mongodb://127.0.0.1:27017/newsletter", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
