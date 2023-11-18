@@ -3,7 +3,7 @@ import { submitNewsletterForm, getEmails } from '../controllers/newsletter.contr
 
 const router = express.Router();
 
-router.post('/api/newsletter', submitNewsletterForm);
-router.get('/api/newsletters', getEmails);
+router.post('/newsletter', submitNewsletterForm);
+router.get('/newsletters', getEmails);
 
 export default router;

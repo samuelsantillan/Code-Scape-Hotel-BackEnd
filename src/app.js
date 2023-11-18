@@ -9,6 +9,7 @@ import jwt from "jwt-simple";
 import bodyParser from "body-parser";
 import { fileURLToPath } from 'url';
 import path from 'path';
+import newsletterRoutes from './routes/newsletter.routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -50,7 +51,7 @@ app.use((req, res, next) => {
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
-
+app.use("/api", newsletterRoutes);
 app.use("/api", roomRoutes);
 app.use("/api", authRoutes);
 app.use("/api", roomUser);
