@@ -8,17 +8,17 @@ export function createAccessToken(payload) {
       payload,
       TOKEN_SECRET,
       {
-        expiresIn: 86400, // 24 horas
+        expiresIn: 86400, 
       },
       (err, token) => {
         if (err) reject(err);
-        resolve(token); // token es la respuesta de la promesa
+        resolve(token); 
       }
     );
   });
 }
 
 export function AccessTokenForgotPassword(payload){
-  let token = jwt_simple.encode(payload, TOKEN_SECRET); // token = JWT
+  let token = jwt_simple.encode(payload, TOKEN_SECRET); 
   return token;
 }

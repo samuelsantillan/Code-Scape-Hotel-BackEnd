@@ -35,16 +35,11 @@ app.use(express.static(path.join(__dirname, "/src/upload")));
 
 app.get("/images/:imageName", (req, res) => {
   const imageName = req.params.imageName;
-  const imagePath = path.join(__dirname, "upload", imageName); // Ruta completa de la imagen en el servidor
-
-  // Devuelve la imagen como respuesta
+  const imagePath = path.join(__dirname, "upload", imageName);
   res.sendFile(imagePath);
 });
 
 app.use((req, res, next) => {
-  // DESCOMENTAR ESTO EN LOCALHOST
-  // res.setHeader('Access-Control-Allow-Origin', 'https://app.hotelcodescape.tech');
-  // res.setHeader('Access-Control-Allow-Credentials', 'true');
   next();
 });
 

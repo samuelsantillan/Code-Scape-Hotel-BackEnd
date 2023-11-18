@@ -52,7 +52,6 @@ const submitContactForm = async (req, res) => {
             .status(200)
             .json({ message: "Mensaje recibido y guardado en la base de datos" });
     } catch (error) {
-        console.error("Error al guardar en la base de datos:", error);
         res.status(500).json({ message: "Error al procesar el formulario" });
     }
 };
@@ -62,7 +61,6 @@ const getContacts = async (req, res) => {
         const contacts = await Contact.find();
         res.status(200).json(contacts);
     } catch (error) {
-        console.error("Error al obtener contactos:", error);
         res.status(500).json({ message: "Error al obtener los contactos" });
     }
 };

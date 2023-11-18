@@ -6,7 +6,6 @@ import { createAccessToken, AccessTokenForgotPassword } from "../libs/jwt.js";
 
 export const register = async (req, res) => {
   const { username, email, password, role, state } = req.body;
-  console.log(req.body);
   try {
     const userFound = await User.findOne({ email });
 
@@ -64,10 +63,6 @@ export const login = async (req, res) => {
     });
 
     res.cookie("token", token, {});
-    //  Lo utilizamos para entorno de produccion, en caso de que se utilice en un
-    //  entorno local, los parametros finales no van
-    // res.cookie("token", token,);
-    console.log(token);
     res.json({
       id: userFound._id,
       username: userFound.username,
@@ -82,15 +77,11 @@ export const login = async (req, res) => {
 
 export const verifyToken = async (req, res) => {
   const { token } = req.cookies;
-  console.log(token);
   if (!token) return res.send(false);
-
   jwt.verify(token, TOKEN_SECRET, async (error, user) => {
     if (error) return res.sendStatus(401);
-
     const userFound = await User.findById(user.id);
     if (!userFound) return res.sendStatus(401);
-
     return res.json({
       id: userFound._id,
       username: userFound.username,
@@ -107,7 +98,6 @@ export const logout = async (req, res) => {
     secure: true,
     expires: new Date(0),
   });
-  console.log(req.cookie);
   return res.sendStatus(200);
 };
 
@@ -121,8 +111,6 @@ export const getUsers = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  console.log(req.body);
-
   try {
     const { username, email, role, state } = req.body;
     const userUpdate = await User.findOneAndUpdate(
@@ -142,7 +130,6 @@ export const updateUser = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
-  console.log(req.body);
   try {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).send("User not found");
@@ -160,21 +147,16 @@ export const deleteUser = async (req, res) => {
     }
     res.send("User deleted successfully");
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: error.message });
   }
 };
 
 export const createUserAdmin = async (req, res) => {
   const { username, email, password, role, state } = req.body;
-  console.log(req.body);
   try {
     const userFound = await User.findOne({ email });
-
     if (userFound) return res.status(400).json(["The email is already in use"]);
-
     const passwordHash = await bcrypt.hash(password, 10);
-
     const newUser = new User({
       username,
       email,
@@ -211,13 +193,8 @@ export const passwordReset = async (req, res) => {
   try {
     const { email } = req.body;
     const email1 = req.body.email;
-    console.log(email1);
-    console.log(req.body);
     const userFound = await User.findOne({ email });
-    console.log(userFound);
     if (userFound) {
-      console.log(req.body);
-
       let payload = {
         id: userFound._id,
         email: userFound.email,
@@ -241,9 +218,7 @@ export const passwordReset = async (req, res) => {
 export const passwordResetView = async (req, res) => {
   try {
     const { id, token } = req.params;
-    console.log(id, token);
     const userFound = await User.findById(id);
-    console.log(userFound);
     if (userFound) {
       jwt.verify(token, TOKEN_SECRET, async (error, user) => {
         if (error) return res.sendStatus(401);

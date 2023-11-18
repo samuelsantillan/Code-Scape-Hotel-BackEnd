@@ -1,18 +1,19 @@
 import RoomUserReservation from "../models/room.user.reservation.model.js";
 import nodemailer from "nodemailer";
 import { emailTemplate } from "../views/email.js";
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
     user: "codescapehotel@gmail.com",
-    pass: "yuocvgmxujkcqock",
+    pass: process.env.API_NEWSLETTER_PASSWORD,
   },
 });
 
 export const createRoomUserReservation = async (req, res) => {
   const { idRoom, idUser, startDate, endDate } = req.body;
-  console.log(req.body);
   try {
     const newRoomUserReservation = new RoomUserReservation({
       idRoom: idRoom,
@@ -22,7 +23,6 @@ export const createRoomUserReservation = async (req, res) => {
     });
     const roomUserReservationSaved = await newRoomUserReservation.save();
     await sendConfirmationEmail(req.user.email, roomUserReservationSaved);
-
     res.status(201).json(roomUserReservationSaved);
   } catch (error) {
     res.status(500).json({ message: error.message });

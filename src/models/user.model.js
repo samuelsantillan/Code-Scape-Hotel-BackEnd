@@ -1,4 +1,3 @@
-// Crea una estructura de datos con mongodb
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
@@ -18,7 +17,6 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   role: {
-    // 0: admin, 1: user
     type: Number,
     default: 1,
   },
@@ -34,4 +32,3 @@ export default mongoose.model(
   "User",
   userSchema
 );
- /* Exportamos el modelo de datos */

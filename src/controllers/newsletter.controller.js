@@ -5,7 +5,6 @@ dotenv.config();
 
 const submitNewsletterForm = async (req, res) => {
     const { email } = req.body;
-
     const existingSubscriber = await NewsletterModel.findOne({ email });
     if (existingSubscriber) {
         res.status(400).json({ message: 'El correo ya está registrado en nuestra newsletter' });
@@ -565,7 +564,6 @@ const submitNewsletterForm = async (req, res) => {
     };
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.log(error);
             res.status(500).send('Error en mandar mail de bienvenida');
         } else {
             res.status(200).send('Mail mandado correctamente');

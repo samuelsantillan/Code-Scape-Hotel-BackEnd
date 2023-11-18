@@ -60,7 +60,6 @@ router.post(
           description,
           photos: `${IMAGE_URL}${file.filename}`,
         });
-        console.log(newRoom);
         await newRoom.save();
         const availableDateDocuments = [];
 
@@ -71,14 +70,11 @@ router.post(
             startDate,
             endDate,
           });
-          console.log(availableDate);
-          console.log(startDate);
           availableDateDocuments.push(availableDate);
         }
         await AvailableDate.insertMany(availableDateDocuments);
         res.send("room and available dates upload successfully");
       } catch (error) {
-        console.log(error);
         res.status(500).send("An error ocurred");
       }
     }
@@ -100,12 +96,9 @@ router.put(
       description,
       availableDates,
     } = JSON.parse(req.body.room);
-    console.log(req.body);
+
     const { file, body } = req;
-    console.log("ESTOY ACAAAAAAAAAAAAAAAAAA");
-    console.log(JSON.parse(req.body.room));
-    console.log(file);
-    console.log(req.params.id);
+
 
     if (file && body) {
       try {

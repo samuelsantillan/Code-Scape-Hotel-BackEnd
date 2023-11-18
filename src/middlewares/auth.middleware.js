@@ -9,13 +9,11 @@ export const auth = (req, res, next) => {
     jwt.verify(token, TOKEN_SECRET, (err, user) => {
       if (err) return res.status(401).json({ message: "Unauthorized" });
 
-      req.user = user; // req.user = { id: user.id, username: user.username } es la info que se guarda en el token
-
-      // console.log(user);
+      req.user = user; 
       next();
     });
   } catch (error) {
-    console.log(error);
+    return res.status(401).json({ message: "Unauthorized" });
   }
 };
 
