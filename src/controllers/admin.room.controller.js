@@ -28,7 +28,7 @@ export const getRooms = async (req, res) => {
 export const getRoom = async (req, res) => {
   try {
     const rooms = await Room.findById(req.params.id);
-    if(!rooms) return res.status(404).send("Room not found");
+    if(!rooms) return res.status(404).send("La habitacion no existe");
     res.json(rooms);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -36,16 +36,19 @@ export const getRoom = async (req, res) => {
 };
 export const deleteRoom = async (req, res) => {
   try {
-    const deletedRoom = await Room.findOneAndDelete(req.params.id);
+    const deletedRoom = await Room.findOneAndDelete({ _id: req.params.id });
+    // Utiliza el objeto de filtro { _id: req.params.id } para encontrar y eliminar la habitación por su ID
+    console.log(req.params.id);
     if (!deletedRoom) {
-      return res.status(404).send("Room not found");
+      return res.status(404).send("La habitacion no existe");
     }
-    res.send("Room deleted successfully");
+    res.send("La habitacion se ha eliminado correctamente");
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
   }
 };
+
 
 export const createRoom = async (req, res) => {
   const {
@@ -63,7 +66,7 @@ export const createRoom = async (req, res) => {
     if (numberHabitationFound)
       return res
         .status(400)
-        .json({ message: "The number habitation already exists" });
+        .json({ message: "El numero de la habitacion ya existe" });
     const newRoom = new Room({
       numberHabitation,
       type,
@@ -88,10 +91,10 @@ export const createRoom = async (req, res) => {
       availableDateDocuments.push(availableDate);
     }
     await AvailableDate.insertMany(availableDateDocuments);
-    res.send("room and available dates upload successfully");
+    res.send("La habitacion se ha creado correctamente");
   } catch (error) {
     console.log(error);
-    res.status(500).send("An error ocurred");
+    res.status(500).send("Error al crear la habitacion");
   }
 };
 
